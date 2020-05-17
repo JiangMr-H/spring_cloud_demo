@@ -1,0 +1,64 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway-server
+  redis:
+    host: localhost
+    pool: 6379
+    database: 0
+  cloud:
+    gateway:
+      routes:
+      - id: order-service
+        uri: lb://service-order-rest
+        predicates:
+        - Path=/order-service/**
+        filters:
+        - RewritePath=/order-service/(?<segment>.*),/$\{segment}
+      - id: product-service
+        uri: lb://service-product
+        predicates:
+        - Path=/product-service/**          #http://localhost:8080/product-service/product/1
+        filters:
+        - RewritePath=/product-service/(?<segment>.*),/$\{segment}
+#        - name: RequestRateLimiter
+#          args:
+#            key-resolver: '#{@userKeyResolver}'
+#            redis-rate-limiter.replenishRate: 1
+#            redis-rate-limiter.burstCapacity: 3
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true    #http://localhost:8080/service-product/product/1 ;http://localhost:8080/service-order-rest/order/buy/1
+  zipkin:
+    #base-url: http://127.0.0.1:9411/
+    sender:
+      type: rabbit
+  sleuth:
+    sampler:
+      probability: 1
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    listener:
+      direct:
+        retry:
+          enabled: true
+      simple:
+        retry:
+          enabled: true
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+  instance:
+    prefer-ip-address: true
+logging:
+  level:
+    root: info
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.springframework.cloud.sleuth: DEBUG
+

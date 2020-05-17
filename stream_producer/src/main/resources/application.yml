@@ -1,0 +1,19 @@
+server:
+  port: 7001
+spring:
+  application:
+    name: stream_producer
+  rabbitmq:
+    addresses: 127.0.0.1
+    username: guest
+    password: guest
+  cloud:
+    stream:
+      bindings:
+        output:
+          destination: itcast-default
+        myoutput:
+          destination: itcast-consumer-default
+      binders:
+        defaultRabbit:
+          type: rabbit

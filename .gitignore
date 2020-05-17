@@ -1,0 +1,11 @@
+# Project exclude paths
+/api_gateway_server/target/
+/api_zuul_server/target/
+/eureka_service/target/
+/hystrix_turbine/target/
+/import_test/target/
+/order_service-rest/target/
+/order_service_feign/target/
+/product_service/target/
+/stream-consumer/target/
+/stream_producer/target/

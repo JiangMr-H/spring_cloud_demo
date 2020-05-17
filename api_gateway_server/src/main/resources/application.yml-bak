@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway-server
+  cloud:
+    gateway:
+      routes:
+      - id: product-service
+        uri: lb://service-product
+        predicates:
+        - Path=/product-service/**          #http://localhost:8080/product-service/product/1
+        filters:
+          - RewritePath=/product-service/(?<segment>.*),/$\{segment}
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true    #http://localhost:8080/service-product/product/1 ;http://localhost:8080/service-order-rest/order/buy/1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+  instance:
+    prefer-ip-address: true

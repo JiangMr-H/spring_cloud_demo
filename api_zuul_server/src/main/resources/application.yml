@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-zuul-server
+zuul:
+  routes:
+#   product-service:
+#      path: /product-service/**
+#      #url: http://127.0.0.1:9001
+#      serviceId: service-product
+      service-product: /product-service/**
+      service-order-rest: /order-service-rest/**
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+  instance:
+    prefer-ip-address: true

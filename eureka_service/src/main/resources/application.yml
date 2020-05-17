@@ -1,0 +1,14 @@
+server:
+  port: 9000
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:9000/eureka
+    register-with-eureka: false
+    fetch-registry: false
+  server:
+    enable-self-preservation: false #关闭自我保护
+    eviction-interval-timer-in-ms: 4000 #剔除服务间隔 单位ms
+spring:
+  application:
+    name: eureka-server
